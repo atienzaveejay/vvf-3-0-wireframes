@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VVF 3.0 Design Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+:root{
+  --page:#F1EFEC;
+  --panel:#FFFFFF;
+  --ink:#171312;
+  --ink-2:#6E6663;
+  --ink-3:#8A807C;
+  --hair:#DFD9D4;
+  --brand:#FF4F5E;
+}
+body{
+  margin:0;background:var(--page);color:var(--ink);
+  font-family:"DM Sans",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1240px;margin:0 auto;padding:40px 28px 80px;}
+
+/* ---------- page header ---------- */
+.masthead{border-bottom:1.5px solid var(--ink);padding-bottom:20px;margin-bottom:12px;}
+.kicker{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 14px;
+}
+h1{
+  font-family:"Bricolage Grotesque",system-ui,sans-serif;
+  font-weight:800;font-size:clamp(30px,4.4vw,46px);line-height:1.02;
+  letter-spacing:-.03em;margin:0 0 14px;max-width:20ch;text-wrap:balance;
+}
+.sub{font-size:17px;line-height:1.55;color:var(--ink-2);margin:0;max-width:62ch;}
+.brandnote{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--panel);border:1px solid var(--hair);border-radius:10px;
+  padding:16px 18px;margin:24px 0 0;
+}
+.brandnote .sw{width:34px;height:34px;border-radius:8px;background:var(--brand);flex:none;}
+.brandnote p{margin:0;font-size:14.5px;line-height:1.55;color:var(--ink-2);max-width:78ch;}
+.brandnote b{color:var(--ink);}
+
+/* ---------- direction block ---------- */
+.dir{padding-top:56px;}
+.dir-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-bottom:6px;}
+.dir-letter{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  letter-spacing:.14em;color:var(--ink-3);
+}
+.dir-name{
+  font-family:"Bricolage Grotesque",system-ui,sans-serif;
+  font-weight:700;font-size:27px;letter-spacing:-.02em;margin:0;
+}
+.dir-why{font-size:16px;line-height:1.55;color:var(--ink-2);margin:0 0 22px;max-width:60ch;}
+.dir-why b{color:var(--ink);font-weight:500;}
+
+.spec{display:flex;flex-wrap:wrap;gap:26px 40px;margin-bottom:26px;align-items:flex-start;}
+.swatches{display:flex;gap:8px;}
+.sw-item{text-align:left;}
+.sw-chip{width:52px;height:52px;border-radius:9px;border:1px solid rgba(0,0,0,.07);}
+.sw-hex{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;
+  color:var(--ink-3);margin-top:6px;display:block;letter-spacing:.02em;
+}
+.typespec{font-size:13.5px;color:var(--ink-2);line-height:1.7;}
+.typespec b{display:block;color:var(--ink);font-size:14.5px;}
+
+.stage{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;}
+.slot{width:302px;}
+.slot-cap{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px;
+}
+.slot-cap b{color:var(--ink);font-weight:600;}
+
+/* ---------- phone shell ---------- */
+.phone{
+  width:302px;height:640px;border-radius:34px;overflow:hidden;position:relative;
+  border:9px solid #1B1614;box-shadow:0 18px 40px -16px rgba(23,19,18,.4);
+  display:flex;flex-direction:column;
+}
+.statusbar{
+  height:34px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px 0 22px;font-size:11.5px;font-weight:600;letter-spacing:.01em;
+}
+.statusbar .dots{display:flex;gap:3px;align-items:center;}
+.statusbar .dots i{width:3px;height:3px;border-radius:50%;background:currentColor;display:block;}
+.statusbar .batt{width:19px;height:10px;border-radius:2.5px;border:1.2px solid currentColor;position:relative;opacity:.85;}
+.statusbar .batt::after{content:"";position:absolute;inset:1.5px;right:5px;background:currentColor;border-radius:1px;}
+.app{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* video placeholder */
+.ph{
+  position:relative;border-radius:14px;overflow:hidden;flex:1;min-height:0;
+  display:flex;align-items:flex-end;
+}
+.ph .tag{
+  position:absolute;top:10px;left:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 7px;border-radius:5px;
+}
+.ph .dur{
+  position:absolute;top:10px;right:10px;font-size:10px;font-weight:600;
+  padding:3px 7px;border-radius:5px;
+}
+.icn{width:17px;height:17px;display:block;}
+.hit{min-height:44px;display:flex;align-items:center;justify-content:center;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <p class="kicker">VVF 3.0 &middot; Visual directions &middot; Light mode</p>
+  <h1>Three ways to make it vibrant without throwing away the brand.</h1>
+  <p class="sub">Same two screens in each: the feed, and why it worked. These are the screens that carry the product, so they are the fairest test of a direction. Pick one and I will build all eight screens plus the landing page in it.</p>
+</header>
+
+<div class="brandnote">
+  <span class="sw"></span>
+  <p><b>VVF already has a colour.</b> #FF4F5E appears on the live site and again in the 2.0 redesign, alongside warm neutrals (#171312 ink, #FBFAF9 paper) and Space Grotesk. All three directions keep that coral rather than invent a new palette, because it is real equity and it costs nothing to respect. What changes is what gets built around it.</p>
+</div>
+
+<!-- ============================================================ A -->
+<section class="dir">
+  <div class="dir-head">
+    <span class="dir-letter">DIRECTION A</span>
+    <h2 class="dir-name">Warm Studio</h2>
+  </div>
+  <p class="dir-why">The existing brand, properly designed. Warm paper ground, coral doing all the work, generous spacing. <b>Feels calm and credible</b>, closest to what exists today, lowest risk with Ivan. The trade: it is the least surprising of the three.</p>
+
+  <div class="spec">
+    <div class="swatches">
+      <div class="sw-item"><div class="sw-chip" style="background:#FF4F5E"></div><span class="sw-hex">FF4F5E</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#171312"></div><span class="sw-hex">171312</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#FBFAF9"></div><span class="sw-hex">FBFAF9</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#F1EAE6"></div><span class="sw-hex">F1EAE6</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#8A807C"></div><span class="sw-hex">8A807C</span></div>
+    </div>
+    <div class="typespec"><b>Space Grotesk</b>The current brand face, kept.<br>Mono for counters and data.</div>
+  </div>
+
+  <div class="stage">
+    <div class="slot">
+      <p class="slot-cap"><b>05</b> &nbsp;Free feed</p>
+      <div class="phone" style="background:#FBFAF9;font-family:'Space Grotesk',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#171312;background:#FBFAF9;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:6px 14px 14px;gap:11px;">
+
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-weight:700;font-size:17px;letter-spacing:-.02em;">Skincare</span>
+              <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:13px;"><path d="M5 8l5 5 5-5" stroke="#8A807C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span style="font-size:11.5px;font-weight:600;color:#FF4F5E;background:#FFECEE;padding:5px 10px;border-radius:20px;">3 of 5 free</span>
+          </div>
+
+          <div style="display:flex;gap:4px;">
+            <span style="height:3px;border-radius:2px;background:#FF4F5E;flex:1;"></span>
+            <span style="height:3px;border-radius:2px;background:#FF4F5E;flex:1;"></span>
+            <span style="height:3px;border-radius:2px;background:#FF4F5E;flex:1;"></span>
+            <span style="height:3px;border-radius:2px;background:#EAE3DF;flex:1;"></span>
+            <span style="height:3px;border-radius:2px;background:#EAE3DF;flex:1;"></span>
+          </div>
+
+          <div class="ph" style="background:linear-gradient(150deg,#E9DDD6,#D8C9C2 60%,#CBB9B2);">
+            <span class="tag" style="background:rgba(23,19,18,.62);color:#fff;">photo placeholder</span>
+            <span class="dur" style="background:rgba(23,19,18,.62);color:#fff;">0:23</span>
+            <div style="width:100%;padding:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:linear-gradient(transparent,rgba(23,19,18,.72));">
+              <div style="color:#fff;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                  <span style="width:22px;height:22px;border-radius:50%;background:#C98A7E;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">MJ</span>
+                  <span style="font-size:12px;font-weight:600;">@marissa.jade</span>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <span style="font-size:10.5px;background:rgba(255,255,255,.2);padding:3px 8px;border-radius:20px;">412 followers</span>
+                  <span style="font-size:10.5px;background:#FF4F5E;padding:3px 8px;border-radius:20px;font-weight:600;">180k views</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <span style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+                <span style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16l-5-4-5 4V4z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#F4EDE9;border-radius:12px;padding:11px 12px;">
+            <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8A807C;margin-bottom:4px;font-weight:600;">Why it worked</div>
+            <div style="font-size:13px;line-height:1.45;color:#171312;">Opened on the mistake, not the product. <span style="color:#8A807C;">Same fix your #2 video needed.</span></div>
+          </div>
+
+          <button style="border:0;background:#FF4F5E;color:#fff;font-family:inherit;font-weight:700;font-size:15px;padding:15px;border-radius:13px;width:100%;letter-spacing:-.01em;">See the breakdown</button>
+
+          <div style="display:flex;gap:9px;">
+            <button style="flex:1;border:1.5px solid #E4DCD7;background:transparent;color:#6E6663;font-family:inherit;font-weight:600;font-size:13px;padding:12px;border-radius:11px;">Not for me</button>
+            <button style="flex:1;border:1.5px solid #E4DCD7;background:transparent;color:#6E6663;font-family:inherit;font-weight:600;font-size:13px;padding:12px;border-radius:11px;">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <p class="slot-cap"><b>06</b> &nbsp;Why it worked</p>
+      <div class="phone" style="background:#FBFAF9;font-family:'Space Grotesk',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#171312;background:#FBFAF9;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:6px 14px 14px;gap:12px;overflow-y:auto;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <svg class="icn" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="#171312" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:12.5px;font-weight:600;color:#6E6663;">Save</span>
+          </div>
+
+          <div style="display:flex;gap:13px;align-items:center;padding:2px 0 4px;">
+            <div style="width:76px;height:98px;border-radius:12px;background:linear-gradient(150deg,#E9DDD6,#CBB9B2);flex:none;"></div>
+            <div>
+              <div style="font-size:14px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em;">@marissa.jade</div>
+              <div style="font-size:12px;color:#8A807C;line-height:1.65;">412 followers<br>180k views<br>6 days ago</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:9px;">
+              <span style="width:19px;height:19px;border-radius:50%;background:#FFECEE;color:#FF4F5E;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;">1</span>
+              <span style="font-size:13px;line-height:1.5;">First line names a mistake the viewer is already making.</span>
+            </div>
+            <div style="display:flex;gap:9px;">
+              <span style="width:19px;height:19px;border-radius:50%;background:#FFECEE;color:#FF4F5E;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;">2</span>
+              <span style="font-size:13px;line-height:1.5;">No product until 0:11, after the problem lands.</span>
+            </div>
+            <div style="display:flex;gap:9px;">
+              <span style="width:19px;height:19px;border-radius:50%;background:#FFECEE;color:#FF4F5E;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;">3</span>
+              <span style="font-size:13px;line-height:1.5;">One take, no edit, no music.</span>
+            </div>
+          </div>
+
+          <div style="height:1px;background:#EAE3DF;"></div>
+
+          <div style="background:#171312;border-radius:14px;padding:15px;">
+            <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#FF8089;margin-bottom:9px;font-weight:600;">Your version</div>
+            <div style="font-size:15.5px;line-height:1.42;color:#FBFAF9;font-weight:500;">&ldquo;You are not breaking out from your skincare. You are breaking out from this.&rdquo;</div>
+          </div>
+
+          <button style="border:0;background:#FF4F5E;color:#fff;font-family:inherit;font-weight:700;font-size:15px;padding:15px;border-radius:13px;width:100%;">Copy this hook</button>
+          <button style="border:1.5px solid #E4DCD7;background:transparent;color:#6E6663;font-family:inherit;font-weight:600;font-size:13.5px;padding:13px;border-radius:12px;width:100%;">Next video</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ B -->
+<section class="dir">
+  <div class="dir-head">
+    <span class="dir-letter">DIRECTION B</span>
+    <h2 class="dir-name">High Contrast</h2>
+  </div>
+  <p class="dir-why">Coral kept as the action colour, but paired with hard black, clean white and oversized type. <b>Reads confident and modern</b> rather than gentle. The most "app" of the three, and the one that photographs best in a pitch. The trade: less warmth.</p>
+
+  <div class="spec">
+    <div class="swatches">
+      <div class="sw-item"><div class="sw-chip" style="background:#FF4F5E"></div><span class="sw-hex">FF4F5E</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#0E0E10"></div><span class="sw-hex">0E0E10</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#FFFFFF"></div><span class="sw-hex">FFFFFF</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#F2F2F4"></div><span class="sw-hex">F2F2F4</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#CBFF3D"></div><span class="sw-hex">CBFF3D</span></div>
+    </div>
+    <div class="typespec"><b>Bricolage Grotesque</b>Heavy, tight display for headlines.<br>DM Sans for everything else.</div>
+  </div>
+
+  <div class="stage">
+    <div class="slot">
+      <p class="slot-cap"><b>05</b> &nbsp;Free feed</p>
+      <div class="phone" style="background:#FFFFFF;font-family:'DM Sans',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#0E0E10;background:#FFFFFF;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:4px 13px 13px;gap:10px;">
+
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:23px;letter-spacing:-.035em;">Skincare</span>
+            <span style="font-size:11px;font-weight:700;color:#0E0E10;background:#CBFF3D;padding:6px 10px;border-radius:6px;letter-spacing:-.01em;">3 / 5 FREE</span>
+          </div>
+
+          <div class="ph" style="background:linear-gradient(160deg,#DCDCE2,#C2C2CC 55%,#A8A8B4);border-radius:18px;">
+            <span class="tag" style="background:rgba(14,14,16,.5);color:#fff;">photo placeholder</span>
+            <span class="dur" style="background:rgba(14,14,16,.5);color:#fff;">0:23</span>
+            <div style="width:100%;padding:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:linear-gradient(transparent,rgba(14,14,16,.85));">
+              <div style="color:#fff;">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:29px;line-height:1;letter-spacing:-.04em;color:#CBFF3D;">437&times;</div>
+                <div style="font-size:11px;margin-top:5px;opacity:.85;">180k views on 412 followers</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <span style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+                <span style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16l-5-4-5 4V4z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-left:3px solid #FF4F5E;padding-left:11px;">
+            <div style="font-size:14px;line-height:1.4;font-weight:500;color:#0E0E10;">Opened on the mistake, not the product.</div>
+            <div style="font-size:12px;color:#78787F;margin-top:3px;">Same fix your #2 video needed.</div>
+          </div>
+
+          <button style="border:0;background:#0E0E10;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;padding:16px;border-radius:12px;width:100%;letter-spacing:-.02em;">See the breakdown</button>
+
+          <div style="display:flex;gap:8px;">
+            <button style="flex:1;border:0;background:#F2F2F4;color:#0E0E10;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:10px;">Not for me</button>
+            <button style="flex:1;border:0;background:#F2F2F4;color:#0E0E10;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:10px;">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <p class="slot-cap"><b>06</b> &nbsp;Why it worked</p>
+      <div class="phone" style="background:#FFFFFF;font-family:'DM Sans',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#0E0E10;background:#FFFFFF;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:4px 13px 13px;gap:12px;overflow-y:auto;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <svg class="icn" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="#0E0E10" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:12.5px;font-weight:600;color:#78787F;">Save</span>
+          </div>
+
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:.92;letter-spacing:-.045em;">437&times;</div>
+            <div style="font-size:12.5px;color:#78787F;margin-top:7px;">180k views &middot; 412 followers &middot; 6 days ago</div>
+          </div>
+
+          <div style="height:1px;background:#E8E8EC;"></div>
+
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#FF4F5E;letter-spacing:.1em;margin-bottom:3px;">01</div>
+              <div style="font-size:13.5px;line-height:1.45;">First line names a mistake the viewer is already making.</div>
+            </div>
+            <div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#FF4F5E;letter-spacing:.1em;margin-bottom:3px;">02</div>
+              <div style="font-size:13.5px;line-height:1.45;">No product until 0:11, after the problem lands.</div>
+            </div>
+            <div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#FF4F5E;letter-spacing:.1em;margin-bottom:3px;">03</div>
+              <div style="font-size:13.5px;line-height:1.45;">One take, no edit, no music.</div>
+            </div>
+          </div>
+
+          <div style="background:#CBFF3D;border-radius:14px;padding:15px;">
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#5A6B15;margin-bottom:8px;font-weight:600;">Your version</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:17px;line-height:1.28;color:#0E0E10;font-weight:700;letter-spacing:-.02em;">&ldquo;You are not breaking out from your skincare. You are breaking out from this.&rdquo;</div>
+          </div>
+
+          <button style="border:0;background:#FF4F5E;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;padding:16px;border-radius:12px;width:100%;letter-spacing:-.02em;">Copy this hook</button>
+          <button style="border:0;background:#F2F2F4;color:#0E0E10;font-family:inherit;font-weight:600;font-size:13.5px;padding:14px;border-radius:11px;width:100%;">Next video</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ C -->
+<section class="dir">
+  <div class="dir-head">
+    <span class="dir-letter">DIRECTION C</span>
+    <h2 class="dir-name">Chroma</h2>
+  </div>
+  <p class="dir-why">Coral stays the action colour everywhere, but <b>each category owns a hue</b> that tints the surfaces. Browse skincare and the app is pink; switch to fitness and it turns green. Most distinctive of the three, and the colour is doing a job rather than decorating. The trade: more to build, and it needs discipline to stop it getting noisy.</p>
+
+  <div class="spec">
+    <div class="swatches">
+      <div class="sw-item"><div class="sw-chip" style="background:#FF4F5E"></div><span class="sw-hex">skincare</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#12B886"></div><span class="sw-hex">fitness</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#F59F00"></div><span class="sw-hex">food</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#7048E8"></div><span class="sw-hex">fashion</span></div>
+      <div class="sw-item"><div class="sw-chip" style="background:#1098AD"></div><span class="sw-hex">home</span></div>
+    </div>
+    <div class="typespec"><b>Plus Jakarta Sans</b>One family, wide weight range.<br>Colour carries the hierarchy instead.</div>
+  </div>
+
+  <div class="stage">
+    <div class="slot">
+      <p class="slot-cap"><b>05</b> &nbsp;Free feed &middot; skincare</p>
+      <div class="phone" style="background:#FFF7F8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#2A1418;background:#FFF7F8;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:4px 13px 13px;gap:10px;">
+
+          <div style="display:flex;gap:6px;overflow:hidden;">
+            <span style="font-size:11.5px;font-weight:700;background:#FF4F5E;color:#fff;padding:7px 12px;border-radius:20px;white-space:nowrap;">Skincare</span>
+            <span style="font-size:11.5px;font-weight:600;background:#fff;color:#8A7276;padding:7px 12px;border-radius:20px;white-space:nowrap;border:1px solid #F3DFE2;">Haircare</span>
+            <span style="font-size:11.5px;font-weight:600;background:#fff;color:#8A7276;padding:7px 12px;border-radius:20px;white-space:nowrap;border:1px solid #F3DFE2;">Wellness</span>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:11.5px;color:#8A7276;font-weight:500;">12 new outliers today</span>
+            <span style="font-size:11px;font-weight:700;color:#FF4F5E;">3 of 5 free</span>
+          </div>
+
+          <div class="ph" style="background:linear-gradient(155deg,#F2CDD4,#DFA7B2 55%,#C98A99);border-radius:20px;">
+            <span class="tag" style="background:rgba(42,20,24,.55);color:#fff;">photo placeholder</span>
+            <span class="dur" style="background:rgba(42,20,24,.55);color:#fff;">0:23</span>
+            <div style="width:100%;padding:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:linear-gradient(transparent,rgba(42,20,24,.78));">
+              <div style="color:#fff;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                  <span style="width:22px;height:22px;border-radius:50%;background:#FF4F5E;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;">MJ</span>
+                  <span style="font-size:12px;font-weight:600;">@marissa.jade</span>
+                </div>
+                <div style="font-size:10.5px;opacity:.9;">412 followers &middot; 180k views</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <span style="width:35px;height:35px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+                <span style="width:35px;height:35px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16l-5-4-5 4V4z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #F6E3E6;border-radius:14px;padding:12px;">
+            <div style="font-size:13px;line-height:1.45;font-weight:500;">Opened on the mistake, not the product.</div>
+            <div style="font-size:11.5px;color:#8A7276;margin-top:3px;">Same fix your #2 video needed.</div>
+          </div>
+
+          <button style="border:0;background:#FF4F5E;color:#fff;font-family:inherit;font-weight:800;font-size:15px;padding:16px;border-radius:14px;width:100%;letter-spacing:-.01em;">See the breakdown</button>
+
+          <div style="display:flex;gap:8px;">
+            <button style="flex:1;border:1.5px solid #F3DFE2;background:#fff;color:#8A7276;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:12px;">Not for me</button>
+            <button style="flex:1;border:1.5px solid #F3DFE2;background:#fff;color:#8A7276;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:12px;">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <p class="slot-cap"><b>05b</b> &nbsp;Same screen &middot; fitness</p>
+      <div class="phone" style="background:#F4FCF9;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#0C2C22;background:#F4FCF9;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:4px 13px 13px;gap:10px;">
+
+          <div style="display:flex;gap:6px;overflow:hidden;">
+            <span style="font-size:11.5px;font-weight:700;background:#12B886;color:#fff;padding:7px 12px;border-radius:20px;white-space:nowrap;">Fitness</span>
+            <span style="font-size:11.5px;font-weight:600;background:#fff;color:#5F8377;padding:7px 12px;border-radius:20px;white-space:nowrap;border:1px solid #D5EFE5;">Home gym</span>
+            <span style="font-size:11.5px;font-weight:600;background:#fff;color:#5F8377;padding:7px 12px;border-radius:20px;white-space:nowrap;border:1px solid #D5EFE5;">Running</span>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:11.5px;color:#5F8377;font-weight:500;">9 new outliers today</span>
+            <span style="font-size:11px;font-weight:700;color:#FF4F5E;">4 of 5 free</span>
+          </div>
+
+          <div class="ph" style="background:linear-gradient(155deg,#BFE6D6,#8FCDB6 55%,#68B69B);border-radius:20px;">
+            <span class="tag" style="background:rgba(12,44,34,.55);color:#fff;">photo placeholder</span>
+            <span class="dur" style="background:rgba(12,44,34,.55);color:#fff;">0:31</span>
+            <div style="width:100%;padding:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:linear-gradient(transparent,rgba(12,44,34,.78));">
+              <div style="color:#fff;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                  <span style="width:22px;height:22px;border-radius:50%;background:#12B886;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;">DR</span>
+                  <span style="font-size:12px;font-weight:600;">@dan.rebuilt</span>
+                </div>
+                <div style="font-size:10.5px;opacity:.9;">308 followers &middot; 96k views</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <span style="width:35px;height:35px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+                <span style="width:35px;height:35px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">
+                  <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16l-5-4-5 4V4z" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #DDF0E8;border-radius:14px;padding:12px;">
+            <div style="font-size:13px;line-height:1.45;font-weight:500;">Showed the failed rep, not the finished lift.</div>
+            <div style="font-size:11.5px;color:#5F8377;margin-top:3px;">You have never posted a miss.</div>
+          </div>
+
+          <button style="border:0;background:#FF4F5E;color:#fff;font-family:inherit;font-weight:800;font-size:15px;padding:16px;border-radius:14px;width:100%;letter-spacing:-.01em;">See the breakdown</button>
+
+          <div style="display:flex;gap:8px;">
+            <button style="flex:1;border:1.5px solid #D5EFE5;background:#fff;color:#5F8377;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:12px;">Not for me</button>
+            <button style="flex:1;border:1.5px solid #D5EFE5;background:#fff;color:#5F8377;font-family:inherit;font-weight:600;font-size:13px;padding:13px;border-radius:12px;">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <p class="slot-cap"><b>06</b> &nbsp;Why it worked</p>
+      <div class="phone" style="background:#FFF7F8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
+        <div class="statusbar" style="color:#2A1418;background:#FFF7F8;">
+          <span>9:41</span>
+          <span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span>
+        </div>
+        <div class="app" style="padding:4px 13px 13px;gap:11px;overflow-y:auto;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <svg class="icn" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="#2A1418" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:12.5px;font-weight:600;color:#8A7276;">Save</span>
+          </div>
+
+          <div style="display:flex;gap:11px;align-items:center;">
+            <div style="width:58px;height:76px;border-radius:12px;background:linear-gradient(150deg,#F2CDD4,#C98A99);flex:none;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px;">@marissa.jade</div>
+              <div style="font-size:11.5px;color:#8A7276;line-height:1.55;">412 followers<br>180k views &middot; 6 days ago</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #F6E3E6;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:11px;">
+            <div style="display:flex;gap:9px;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#FF4F5E;flex:none;margin-top:7px;"></span>
+              <span style="font-size:13px;line-height:1.45;">First line names a mistake the viewer is already making.</span>
+            </div>
+            <div style="display:flex;gap:9px;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#FF4F5E;flex:none;margin-top:7px;"></span>
+              <span style="font-size:13px;line-height:1.45;">No product until 0:11, after the problem lands.</span>
+            </div>
+            <div style="display:flex;gap:9px;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#FF4F5E;flex:none;margin-top:7px;"></span>
+              <span style="font-size:13px;line-height:1.45;">One take, no edit, no music.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(135deg,#FF4F5E,#E0344F);border-radius:16px;padding:15px;">
+            <div style="font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:8px;font-weight:700;">Your version</div>
+            <div style="font-size:15.5px;line-height:1.35;color:#fff;font-weight:700;">&ldquo;You are not breaking out from your skincare. You are breaking out from this.&rdquo;</div>
+          </div>
+
+          <button style="border:0;background:#2A1418;color:#fff;font-family:inherit;font-weight:800;font-size:15px;padding:16px;border-radius:14px;width:100%;">Copy this hook</button>
+          <button style="border:1.5px solid #F3DFE2;background:#fff;color:#8A7276;font-family:inherit;font-weight:600;font-size:13.5px;padding:14px;border-radius:13px;width:100%;">Next video</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dir">
+  <div class="dir-head"><span class="dir-letter">NEXT</span><h2 class="dir-name">How to choose</h2></div>
+  <p class="dir-why">Pick on energy, not on detail. <b>A</b> if you want Ivan to see continuity with what exists. <b>B</b> if you want it to look like a serious tool people pay for. <b>C</b> if you want it to feel unlike anything else in the category. Photography is a placeholder in all three and would be the single biggest upgrade to any of them.</p>
+</section>
+
+</div>
+</body>
+</html>
