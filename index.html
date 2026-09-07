@@ -4,167 +4,67 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>VVF 3.0 Wireframes</title>
+<title>VVF 3.0 &middot; Revision 3</title>
 <style>
 :root{
-  --paper:#F3F2ED;
-  --surface:#FBFAF8;
-  --ink:#191815;
-  --ink-2:#6C685F;
-  --ink-3:#918C81;
-  --rule:#D9D6CD;
-  --rule-soft:#E6E3DB;
-  --accent:#AB3128;
-  --accent-soft:#EFDAD6;
-  --stock-yellow:#A8912F;
-  --stock-yellow-soft:#F0E7C9;
-  --stock-green-s:#668860;
-  --box:#E3E0D7;
-  --box-2:#D0CCC1;
-  --phone-bg:#FCFBF9;
-
-  --f-display:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --paper:#F3F2ED; --surface:#FFFFFF; --wash:#FAF9F5;
+  --ink:#191815; --ink-2:#5F5B53; --ink-3:#8C877C;
+  --rule:#DCD8CF; --rule-soft:#E9E6DE;
+  --coral:#FF4F5E; --cyan:#25F4EE; --cyan-deep:#0B7B7F;
+  --f-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --f-body:Georgia,Cambria,"Times New Roman",Times,serif;
-  --f-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --f-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#131311; --surface:#1B1A17; --ink:#EDEAE2; --ink-2:#9C978B;
-    --ink-3:#7C776C; --rule:#302E29; --rule-soft:#26241F; --accent:#E3776A;
-    --accent-soft:#3A211C; --stock-yellow:#CDB255; --stock-yellow-soft:#332D18;
-    --stock-green-s:#93B48B; --box:#2A2825; --box-2:#37342F; --phone-bg:#1E1D1A;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#131311; --surface:#1B1A17; --ink:#EDEAE2; --ink-2:#9C978B;
-  --ink-3:#7C776C; --rule:#302E29; --rule-soft:#26241F; --accent:#E3776A;
-  --accent-soft:#3A211C; --stock-yellow:#CDB255; --stock-yellow-soft:#332D18;
-  --stock-green-s:#93B48B; --box:#2A2825; --box-2:#37342F; --phone-bg:#1E1D1A;
-}
-
 *,*::before,*::after{box-sizing:border-box;}
-body{
-  background:var(--paper); color:var(--ink); font-family:var(--f-body);
-  font-size:16.5px; line-height:1.55; margin:0; -webkit-font-smoothing:antialiased;
-}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px 72px;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.58;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px 80px;}
 
-.mast{border-bottom:2px solid var(--ink);padding:38px 0 18px;}
-.mast-tag{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-2);margin-bottom:20px;
-}
-h1{
-  font-family:var(--f-display);font-weight:700;
-  font-size:clamp(32px,5.5vw,52px);line-height:1.04;letter-spacing:-.025em;
-  margin:0 0 18px;text-wrap:balance;max-width:17ch;
-}
-.mast-meta{
-  display:flex;flex-wrap:wrap;gap:6px 26px;
-  font-family:var(--f-mono);font-size:12px;color:var(--ink-3);
-}
-.mast-meta b{color:var(--ink-2);font-weight:500;}
+.mast{border-bottom:2px solid var(--ink);padding:34px 0 20px;}
+.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;}
+h1{font-family:var(--f-ui);font-weight:700;font-size:clamp(30px,6.4vw,48px);line-height:1.03;letter-spacing:-.03em;margin:0 0 16px;text-wrap:balance;max-width:18ch;}
+.lede{font-size:18px;color:var(--ink-2);margin:0;max-width:62ch;}
 
 section{padding-top:44px;}
-.shead{
-  display:flex;align-items:center;gap:12px;border-top:1px solid var(--rule);
-  padding-top:13px;margin-bottom:20px;
-}
-.chip{width:11px;height:24px;border-radius:1px;flex:none;background:var(--stock-yellow);}
-.chip.green{background:var(--stock-green-s);}
-.chip.cherry{background:var(--accent);}
-.snum{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);letter-spacing:.1em;}
-h2{font-family:var(--f-display);font-weight:600;font-size:clamp(21px,3vw,25px);
-  letter-spacing:-.015em;margin:0;flex:1;}
-h4{font-family:var(--f-mono);font-weight:600;font-size:11px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;}
-p{margin:0 0 14px;max-width:66ch;}
+.shead{display:flex;align-items:center;gap:11px;border-top:1px solid var(--rule);padding-top:13px;margin-bottom:14px;}
+.shead .chip{width:10px;height:22px;border-radius:1px;flex:none;background:var(--coral);}
+.shead .chip.cy{background:var(--cyan);}
+.shead .n{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.1em;}
+h2{font-family:var(--f-ui);font-weight:650;font-size:clamp(20px,3.4vw,26px);letter-spacing:-.02em;margin:0;flex:1;}
+p{margin:0 0 15px;max-width:66ch;}
+.note{font-size:15.5px;color:var(--ink-2);}
 
-.bracket{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);
-  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--stock-green-s);margin-bottom:9px;}
-.bracket .line{flex:1;height:1px;background:var(--stock-green-s);opacity:.5;}
-.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));
-  gap:1px;background:var(--rule);border:1px solid var(--rule);}
-.step{background:var(--surface);padding:14px 14px 16px;}
-.step.signin{background:var(--stock-yellow-soft);}
-.step.gate{background:var(--accent-soft);}
-.step .n{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);
-  letter-spacing:.1em;display:block;margin-bottom:7px;}
-.step.signin .n{color:var(--stock-yellow);}
-.step.gate .n{color:var(--accent);}
-.step b{font-family:var(--f-display);font-size:14.5px;font-weight:600;
-  display:block;margin-bottom:5px;line-height:1.2;}
-.step span.d{font-size:13px;color:var(--ink-2);line-height:1.4;display:block;}
+/* page links */
+.pages{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:20px;}
+.pl{display:block;background:var(--surface);border:1px solid var(--rule);border-radius:13px;padding:18px 19px;text-decoration:none;color:inherit;}
+.pl .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:9px;}
+.pl h3{font-family:var(--f-ui);font-size:17.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px;}
+.pl p{font-size:14.5px;color:var(--ink-2);margin:0;line-height:1.5;}
+.pl .go{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);margin-top:12px;display:block;}
 
-.frames{display:flex;flex-wrap:wrap;gap:26px 20px;padding:4px 0 14px;align-items:flex-start;}
-.frame{flex:none;width:252px;}
-.frame > figcaption{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;
-  color:var(--ink-3);margin-bottom:8px;text-transform:uppercase;}
-.frame > figcaption b{color:var(--ink);font-weight:600;}
-.screen{background:var(--phone-bg);border:1px solid var(--rule);border-radius:14px;
-  overflow:hidden;min-height:470px;display:flex;flex-direction:column;font-family:var(--f-mono);}
-.bar{height:21px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:center;
-  justify-content:space-between;padding:0 10px;font-size:8.5px;color:var(--ink-3);flex:none;}
-.sc{padding:13px 12px;display:flex;flex-direction:column;gap:9px;flex:1;}
-.sc-t{font-family:var(--f-display);font-weight:700;font-size:15px;line-height:1.15;
-  letter-spacing:-.01em;color:var(--ink);}
-.sc-s{font-size:9.5px;line-height:1.5;color:var(--ink-2);}
-.sc-lbl{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.opt{background:var(--box);border-radius:5px;padding:8px;font-size:9.5px;color:var(--ink);line-height:1.3;}
-.opt.sel{background:var(--accent-soft);box-shadow:inset 0 0 0 1.5px var(--accent);}
-.opt.field{background:transparent;box-shadow:inset 0 0 0 1px var(--rule);color:var(--ink-3);}
-.btn{background:var(--ink);color:var(--paper);border-radius:6px;padding:9px;
-  text-align:center;font-size:10px;font-weight:600;}
-.btn.hollow{background:transparent;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--rule);}
-.btn.cherry{background:var(--accent);color:#fff;}
-.vid{background:var(--box);border-radius:8px;flex:1;min-height:130px;display:flex;
-  flex-direction:column;justify-content:space-between;padding:8px;position:relative;}
-.vid::after{content:"video";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  font-size:8.5px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;}
-.pill{background:var(--box-2);border-radius:20px;padding:3px 7px;font-size:8px;
-  color:var(--ink);display:inline-block;}
-.rail{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
-.rail i{width:22px;height:22px;border-radius:50%;background:var(--box-2);display:block;}
-.vidfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:7px;}
-.why{font-size:9px;color:var(--ink);line-height:1.4;background:var(--phone-bg);
-  padding:6px;border-radius:5px;max-width:138px;}
-.tabs{display:flex;gap:5px;font-size:8.5px;flex-wrap:wrap;}
-.tab{padding:4px 8px;border-radius:20px;background:var(--box);color:var(--ink-2);}
-.tab.on{background:var(--ink);color:var(--paper);}
-.shot{display:flex;gap:7px;font-size:9px;line-height:1.42;color:var(--ink);}
-.shot .tc{color:var(--accent);flex:none;font-size:8.5px;padding-top:1px;}
-.hookbox{background:var(--accent-soft);border-radius:6px;padding:9px;font-size:10px;
-  line-height:1.45;color:var(--ink);}
-.meter{height:4px;border-radius:3px;background:var(--box);overflow:hidden;}
-.meter i{display:block;height:100%;background:var(--accent);width:60%;}
-.divider{height:1px;background:var(--rule-soft);}
-.legend{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin:0;}
+/* note → change ledger */
+.ledger{border-top:1px solid var(--rule);margin-top:6px;}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;padding:15px 0;border-bottom:1px solid var(--rule-soft);align-items:start;}
+.lnote{font-size:15.5px;line-height:1.45;color:var(--ink);}
+.lnote span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px;}
+.ldid{font-size:15px;line-height:1.5;color:var(--ink-2);}
+.ldid b{color:var(--ink);font-family:var(--f-ui);font-weight:600;}
+.ldid a{color:var(--ink);text-underline-offset:3px;text-decoration-color:var(--rule);}
 
-.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
-  gap:1px;background:var(--rule);border:1px solid var(--rule);}
-.kv > div{background:var(--surface);padding:16px 18px;}
-.kv p{margin:0;font-size:15.5px;color:var(--ink);}
-.kv.changes h4{color:var(--accent);}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;margin-top:18px;}
+.kv > div{background:var(--surface);padding:16px 18px;box-shadow:0 0 0 1px var(--rule);}
+.kv h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;font-weight:600;}
+.kv p{margin:0;font-size:15.5px;color:var(--ink-2);}
+.kv.hot h4{color:var(--coral);}
 
-.colophon{border-top:1px solid var(--rule);margin-top:48px;padding-top:16px;
-  font-family:var(--f-mono);font-size:11px;line-height:1.65;color:var(--ink-3);max-width:66ch;}
+.colophon{border-top:1px solid var(--rule);margin-top:46px;padding-top:16px;font-family:var(--f-mono);font-size:11.5px;line-height:1.7;color:var(--ink-3);max-width:70ch;}
 
-@page{margin:12mm;}
-@media print{
-  :root{--paper:#fff;--surface:#fff;--phone-bg:#fff;--ink:#111;--rule:#c4c1b8;--rule-soft:#e2e0d9;--box:#e8e6df;--box-2:#d6d3ca;}
-  body{background:#fff;font-size:10pt;}
-  .wrap{max-width:none;padding:0;}
-  section{padding-top:14pt;}
-  .flow{grid-template-columns:repeat(4,1fr);background:transparent;border:0;gap:5pt;}
-  .step{border:1px solid var(--rule);}
-  .frames{gap:12pt 10pt;}
-  .frame{width:206px;}
-  .screen{min-height:424px;}
-  .kv{grid-template-columns:repeat(3,1fr);}
-  .frame,.screen,.step,.kv>div{break-inside:avoid;page-break-inside:avoid;}
-  a{color:inherit;}
+@media (max-width:640px){
+  body{font-size:16px;}
+  .wrap{padding:0 17px 60px;}
+  section{padding-top:34px;}
+  .lrow{grid-template-columns:1fr;gap:8px;padding:14px 0;}
+  .kv{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -172,236 +72,129 @@ p{margin:0 0 14px;max-width:66ch;}
 <div class="wrap">
 
 <header class="mast">
-  <div class="mast-tag">VVF 3.0 &#183; Revision 2, after Ivan's notes</div>
-  <h1>Warm onboarding. Give them a little. Charge for a lot.</h1>
-  <div class="mast-meta">
-    <span><b>Platform</b> Mobile web</span>
-    <span><b>Screens</b> 8</span>
-    <span><b>Free tier</b> 5 videos, 2 categories</span>
-    <span><b>Status</b> Draft for review</span>
-  </div>
+  <div class="tag">VVF 3.0 &middot; Revision 3 &middot; Every note actioned</div>
+  <h1>Search first. Two questions. Then it starts giving.</h1>
+  <p class="lede">The category grid became a search box, the two questions now ask about goal and problem, the feed stopped analysing things nobody asked it to analyse, and the free tier runs out in three separate places. One new page answers the note about locking down what the analysis can actually retrieve.</p>
 </header>
 
 <section>
-  <div class="shead"><span class="chip"></span><span class="snum">01</span><h2>What changed in this revision</h2></div>
-  <div class="kv changes">
-    <div><h4>Sign in moved earlier</h4><p>It now sits in onboarding, paid for by an analysis of their own account rather than asked for cold.</p></div>
-    <div><h4>The wall moved</h4><p>It was on capability. It is now on volume: more videos and more categories, which is what we charge for.</p></div>
-    <div><h4>The plan is gone</h4><p>A six-step shot list is homework. The adaptation survives as one stealable line they can copy in a second.</p></div>
-    <div><h4>Category picker keeps free text</h4><p>Pick a category or name your own, so nobody bounces because their niche is missing.</p></div>
-    <div><h4>Filming question split in two</h4><p>What you make and what you film with are different questions and were answering over each other.</p></div>
-    <div><h4>Free tier trains the paid habit</h4><p>Swipe videos, then get prompted to search more categories. Both are the things the paid tier sells.</p></div>
+  <div class="shead"><span class="chip"></span><span class="n">01</span><h2>The four pages</h2></div>
+  <div class="pages">
+    <a class="pl" href="screens/">
+      <div class="k">Rebuilt</div>
+      <h3>App screens</h3>
+      <p>Ten screens on the new flow, mobile web, in Chroma with the cyan highlight applied.</p>
+      <span class="go">screens/ &rarr;</span>
+    </a>
+    <a class="pl" href="directions/">
+      <div class="k">Round 2</div>
+      <h3>Design directions</h3>
+      <p>Four accents on the direction you picked, including the light blue. The original three are kept underneath.</p>
+      <span class="go">directions/ &rarr;</span>
+    </a>
+    <a class="pl" href="data/">
+      <div class="k">New</div>
+      <h3>What we can analyse</h3>
+      <p>Twenty signals, where each comes from, what it costs, and which six screen 04 is built on.</p>
+      <span class="go">data/ &rarr;</span>
+    </a>
+    <a class="pl" href="landing/">
+      <div class="k">Mobile pass</div>
+      <h3>Landing page</h3>
+      <p>Rebuilt for phones first, with the copy brought in line with the new flow.</p>
+      <span class="go">landing/ &rarr;</span>
+    </a>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="chip green"></span><span class="snum">02</span><h2>User flow</h2></div>
-  <div class="bracket"><span>Warm onboarding</span><span class="line"></span><span>a little free</span><span class="line"></span><span>charge for a lot</span></div>
-  <div class="flow">
-    <div class="step"><span class="n">01</span><b>Category</b><span class="d">Pick one or name your own. Nobody bounces on a missing niche.</span></div>
-    <div class="step"><span class="n">02</span><b>Two questions</b><span class="d">What you make, and what you film with. Asked separately.</span></div>
-    <div class="step signin"><span class="n">03 &#183; SIGN IN</span><b>Connect your account</b><span class="d">TikTok or handle, plus Google. Gets us the email for winback.</span></div>
-    <div class="step"><span class="n">04</span><b>Your analysis</b><span class="d">What is holding your videos back. This is what pays for the handle.</span></div>
-    <div class="step"><span class="n">05</span><b>Free feed</b><span class="d">5 swipeable videos, each with the analysis. Habit forming.</span></div>
-    <div class="step"><span class="n">06</span><b>Why it worked</b><span class="d">Three reasons, plus your version of the hook. One line, copyable.</span></div>
-    <div class="step"><span class="n">07</span><b>Search more</b><span class="d">Prompt a second and third category. Trains the paid behaviour.</span></div>
-    <div class="step gate"><span class="n">08 &#183; PAYWALL</span><b>Join for more</b><span class="d">Out of free videos and categories. The ask lands on a habit, not a stranger.</span></div>
+  <div class="shead"><span class="chip"></span><span class="n">02</span><h2>Every note, and what happened to it</h2></div>
+  <div class="ledger">
+
+    <div class="lrow">
+      <div class="lnote"><span>Landing</span>Optimise for mobile. Mobile traffic goes to mobile.</div>
+      <div class="ldid"><b>Done, and it found a real bug.</b> The hero had zero horizontal padding because a later rule overrode it, which nobody could see on a desktop screen. Beyond that: a full-width primary button, a single upright card instead of a fanned stack of three, a trimmed nav, a sticky action bar, 44px tap targets and two breakpoints under 640px.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>Design style</span>Like 3. Also like the highlight from 2. Try a light blue TikTok highlight or other accents.</div>
+      <div class="ldid"><b>Four accents, same screen four times.</b> Chroma keeps the room, direction B lends it the flat highlight block. Tried in TikTok cyan, a softer sky blue, B&rsquo;s original lime, and the category&rsquo;s own hue. <a href="directions/">Cyan is the recommendation</a>, and the reasoning is on the page: VVF&rsquo;s coral is already within a few degrees of TikTok&rsquo;s red, so the cyan is the half of that palette we do not have yet.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>P1 &middot; home</span>Big main search box. Lots of suggestions underneath. Tap a suggestion to search.</div>
+      <div class="ldid"><b>Screen 01.</b> The six-tile category grid is gone. The suggestions underneath are the grid now, in three groups: niches, products people are searching, and three example queries. Every one of them is a one-tap search.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>P2 &middot; Q2 and Q3</span>What&rsquo;s your main goal? What&rsquo;s your biggest problem?</div>
+      <div class="ldid"><b>Screen 02, both questions, all ten options.</b> The old questions about what they film and what they film with are gone. Both new answers get used: the goal reranks the feed, the problem picks the third card on screen 04.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>03 &middot; connect</span>Handle plus email or Gmail to start. TikTok connect optional later. Never post.</div>
+      <div class="ldid"><b>Screen 03 has no TikTok button on it.</b> Handle, then Google or email. &ldquo;We only read what&rsquo;s already public, and we never post anything, ever&rdquo; sits under the fold line. The connect reappears at the bottom of screen 04 instead, which is a better moment to ask.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>03 &middot; tease</span>Keep the analysis tease. Make it feel special.</div>
+      <div class="ldid"><b>The tease is now a live card, not a promise.</b> It shows the analysis already running against their handle, with items ticking off. The email is the price of seeing a result that is visibly already half-finished, rather than the price of getting in.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>04 &middot; payoff</span>Lock what AI can retrieve. List the impactful data before we design the screen.</div>
+      <div class="ldid"><b>This got its own page.</b> <a href="data/">Twenty signals</a> across three sources, each with where it comes from, what it costs and whether it changes what they film. Screen 04 is then built from the six in Tier 1 and nothing else. The short version: the single most explanatory number in short form is retention, it cannot be scraped, and that is the argument for keeping the connect on the table.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>05 &middot; copy</span>Based on your profile, here are top breakout videos for inspo.</div>
+      <div class="ldid"><b>In, near enough verbatim.</b> &ldquo;Based on your profile, here are the videos breaking out in skincare right now.&rdquo;</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>05 &middot; feed</span>Do not pre-analyse every video. Light cards. Full analysis after they tap analyse. Scroll for more.</div>
+      <div class="ldid"><b>Screen 05 is a list now, not one full-bleed card.</b> Each card is a thumbnail, the breakout multiple, who made it and an Analyse button. No findings until something is tapped, which is what makes showing eight of them cheap and makes tapping one feel like spending something.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>06 &middot; analyse</span>Why it worked. Try this. Creative brief, send to self. Share. Remove next video, go back to results.</div>
+      <div class="ldid"><b>Screen 06, all four blocks, in that order.</b> Next video is gone and the top-left is now &ldquo;Back to results&rdquo;. The brief is three lines rather than a shot list, since a shot list was the thing that got cut last round, and it emails to themselves.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>Caps</span>8 videos, 3 searches, 5 analyses. Lean trial on the analyses.</div>
+      <div class="ldid"><b>Screens 07, 08 and 09, one for each.</b> They ask for different things on purpose: the video cap offers a sideways move first, the search cap is the hard one because search is the product, and the analysis cap offers the trial. <b>Details are on screen 07&rsquo;s note.</b></div>
+    </div>
+
+    <div class="lrow">
+      <div class="lnote"><span>Throughout</span>Mobile-first. Breakout, not outlier.</div>
+      <div class="ldid"><b>Both applied everywhere.</b> Outlier no longer appears in any user-facing copy on any page. Every screen is drawn at a real 306&times;648 phone viewport and nothing overflows it, which is why a couple of the cards got shorter.</div>
+    </div>
+
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="chip cherry"></span><span class="snum">03</span><h2>Wireframes</h2></div>
-  <div class="frames">
-
-    <figure class="frame">
-      <figcaption><b>01</b> Category</figcaption>
-      <div class="screen">
-        <div class="bar"><span>viralvideofinder.com</span><span>1 of 3</span></div>
-        <div class="sc">
-          <div class="sc-t">What do you make videos about?</div>
-          <div class="sc-s">We use this to find videos that already worked for accounts your size.</div>
-          <div class="grid2">
-            <div class="opt sel">Skincare</div><div class="opt">Fitness</div>
-            <div class="opt">Food</div><div class="opt">Home</div>
-            <div class="opt">Fashion</div><div class="opt">Pets</div>
-          </div>
-          <div class="sc-lbl">Or name your own</div>
-          <div class="opt field">e.g. resin art, dog training</div>
-          <div style="flex:1"></div>
-          <div class="btn">Continue</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>02</b> Two questions</figcaption>
-      <div class="screen">
-        <div class="bar"><span>viralvideofinder.com</span><span>2 of 3</span></div>
-        <div class="sc">
-          <div class="sc-t">What kind of videos do you make?</div>
-          <div class="grid2">
-            <div class="opt sel">Talking to camera</div><div class="opt">Product or demo</div>
-            <div class="opt">Faceless, voiceover</div><div class="opt">A mix</div>
-          </div>
-          <div class="divider"></div>
-          <div class="sc-t" style="font-size:13.5px">What do you film with?</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div class="opt sel">Just my phone</div>
-            <div class="opt">Phone and a light</div>
-            <div class="opt">Full setup</div>
-          </div>
-          <div style="flex:1"></div>
-          <div class="btn">Continue</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>03</b> Connect &#183; sign in</figcaption>
-      <div class="screen">
-        <div class="bar"><span>viralvideofinder.com</span><span>3 of 3</span></div>
-        <div class="sc">
-          <div class="sc-t">First, let's look at your account.</div>
-          <div class="sc-s">We check your last 12 videos and tell you what is holding them back. Takes about 20 seconds.</div>
-          <div class="btn">Continue with TikTok</div>
-          <div class="sc-lbl" style="text-align:center">or</div>
-          <div class="opt field">@yourhandle</div>
-          <div class="btn hollow">Continue with Google</div>
-          <div style="flex:1"></div>
-          <div class="sc-lbl" style="text-align:center;line-height:1.7">Free. No card.<br>We never post anything.</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>04</b> Your analysis &#183; the payoff for signing in</figcaption>
-      <div class="screen">
-        <div class="bar"><span>@yourhandle</span><span>412 followers</span></div>
-        <div class="sc">
-          <div class="sc-t">Here's what we found.</div>
-          <div class="sc-lbl">Across your last 12 videos</div>
-          <div class="shot"><span class="tc">01</span><span>Your hooks take 4.1s to reach the point. Skincare outliers land it in 1.8s.</span></div>
-          <div class="shot"><span class="tc">02</span><span>9 of 12 open on your product. The outliers open on a problem.</span></div>
-          <div class="shot"><span class="tc">03</span><span>Your best video did 3.2x your average. It was the only one with no music.</span></div>
-          <div class="divider"></div>
-          <div class="sc-s">None of this is a follower problem. It is a first-three-seconds problem.</div>
-          <div style="flex:1"></div>
-          <div class="btn cherry">Show me videos that got it right</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>05</b> Free feed &#183; core</figcaption>
-      <div class="screen">
-        <div class="bar"><span>Skincare</span><span>3 of 5 free</span></div>
-        <div class="sc" style="padding:10px;gap:8px">
-          <div class="meter"><i></i></div>
-          <div class="vid">
-            <div style="display:flex;gap:5px"><span class="pill">412 followers</span><span class="pill">180k views</span></div>
-            <div class="vidfoot">
-              <div class="why"><b>Opened on the mistake,</b> not the product. Same fix as your #2.</div>
-              <div class="rail"><i></i><i></i><i></i></div>
-            </div>
-          </div>
-          <div class="btn cherry">Why it worked</div>
-          <div style="display:flex;gap:6px">
-            <div class="btn hollow" style="flex:1">Not for me</div>
-            <div class="btn hollow" style="flex:1">Save</div>
-          </div>
-          <div class="sc-lbl" style="text-align:center">Swipe for the next one</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>06</b> Why it worked &#183; no plan, one line</figcaption>
-      <div class="screen">
-        <div class="bar"><span>Back</span><span>Save</span></div>
-        <div class="sc">
-          <div class="vid" style="min-height:76px;flex:none"></div>
-          <div class="sc-lbl">180k views &#183; 412 followers &#183; 6 days ago</div>
-          <div class="shot"><span class="tc">01</span><span>First line names a mistake the viewer is already making.</span></div>
-          <div class="shot"><span class="tc">02</span><span>No product until 0:11, after the problem lands.</span></div>
-          <div class="shot"><span class="tc">03</span><span>One take, no edit, no music.</span></div>
-          <div class="sc-lbl" style="color:var(--accent)">Your version</div>
-          <div class="hookbox">"You are not breaking out from your skincare. You are breaking out from this."</div>
-          <div style="display:flex;gap:6px">
-            <div class="btn" style="flex:1">Copy</div>
-            <div class="btn hollow" style="flex:1">Next video</div>
-          </div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>07</b> Search more categories</figcaption>
-      <div class="screen">
-        <div class="bar"><span>Skincare</span><span>1 of 2 free</span></div>
-        <div class="sc">
-          <div class="sc-t">Try another category.</div>
-          <div class="sc-s">Most creators find their best ideas one category over from their own. Skincare hooks work on haircare, wellness and beauty tools.</div>
-          <div class="tabs">
-            <span class="tab on">Skincare</span><span class="tab">Haircare</span>
-            <span class="tab">Wellness</span><span class="tab">Beauty tools</span>
-            <span class="tab">Self care</span>
-          </div>
-          <div class="sc-lbl">Or name your own</div>
-          <div class="opt field">Search a category</div>
-          <div style="flex:1"></div>
-          <div class="btn cherry">Search haircare</div>
-          <div class="sc-lbl" style="text-align:center">1 free category left</div>
-        </div>
-      </div>
-    </figure>
-
-    <figure class="frame">
-      <figcaption><b>08</b> Paywall</figcaption>
-      <div class="screen">
-        <div class="bar"><span>Close</span><span></span></div>
-        <div class="sc">
-          <div style="flex:1"></div>
-          <div class="sc-t">You've used your 5 free videos.</div>
-          <div class="sc-s">You saved 2 and copied 1 hook. Members get unlimited videos, every category, and your version of every hook.</div>
-          <div class="divider"></div>
-          <div class="shot"><span class="tc">&#183;</span><span>Unlimited videos and categories</span></div>
-          <div class="shot"><span class="tc">&#183;</span><span>Your version of every hook</span></div>
-          <div class="shot"><span class="tc">&#183;</span><span>Weekly account check-ins</span></div>
-          <div class="btn cherry">Join</div>
-          <div class="sc-lbl" style="text-align:center">Price TBD &#183; cancel anytime</div>
-          <div style="flex:1"></div>
-        </div>
-      </div>
-    </figure>
-
+  <div class="shead"><span class="chip cy"></span><span class="n">03</span><h2>Three things worth a second look</h2></div>
+  <div class="kv hot">
+    <div><h4>The 8-video cap fights &ldquo;scroll for more&rdquo;</h4><p>An endless feed that stops dead at eight is a small broken promise. It works if the cap arrives as the ninth card in the list rather than a screen that takes over. Screen 07 is drawn as a takeover for now because it is easier to review that way.</p></div>
+    <div><h4>Three caps is three numbers to tune</h4><p>Each one needs its own answer and each one is a chance to interrupt somebody who was enjoying themselves. Worth agreeing which single cap we actually expect most people to hit first, because that is the one the pricing conversation should be built around.</p></div>
+    <div><h4>Screen 04 has no fallback yet</h4><p>A private account, or one with fewer than five public videos, leaves that screen with nothing to say. At an audience of creators under 10k that is not an edge case, and it needs a designed answer rather than an error.</p></div>
   </div>
-  <p class="legend">Screens 04 and 06 carry the product. 04 pays for the sign in, 06 is what they came back for.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="chip green"></span><span class="snum">04</span><h2>Design rules</h2></div>
+  <div class="shead"><span class="chip"></span><span class="n">04</span><h2>Still open</h2></div>
   <div class="kv">
-    <div><h4>The handle is bought, not asked for</h4><p>Screen 03 only works because screen 04 pays for it immediately. If the analysis is weak, the sign in becomes a naked gate.</p></div>
-    <div><h4>No homework</h4><p>Nothing we hand a creator should take more than a few seconds to act on. One line they can copy beats a shot list they have to follow.</p></div>
-    <div><h4>Free tier is a rehearsal</h4><p>Swiping videos and searching categories are exactly what the paid tier sells. Free is practice, not a sample.</p></div>
-    <div><h4>Count down out loud</h4><p>"3 of 5 free" on every screen. The paywall should never be the first time they learn there is a limit.</p></div>
-    <div><h4>Mobile web, TikTok grammar</h4><p>No install step. Full-bleed vertical cards, actions on a right rail. Nothing new to learn.</p></div>
-    <div><h4>Self-contained</h4><p>No external fonts or scripts. The page renders on a slow or filtered connection.</p></div>
-  </div>
-</section>
-
-<section>
-  <div class="shead"><span class="chip cherry"></span><span class="snum">05</span><h2>Still open</h2></div>
-  <div class="kv">
-    <div><h4>Free tier numbers</h4><p>5 videos and 2 categories are placeholders. Worth testing 3 against 10, since this single number sets the whole conversion rate.</p></div>
-    <div><h4>Price</h4><p>Unset. Small creators are the lowest-paying segment there is, so the number matters more here than in most products.</p></div>
-    <div><h4>Handle without TikTok auth</h4><p>If someone types a handle instead of connecting, how much can we actually analyze? That decides whether screen 04 lands.</p></div>
-    <div><h4>Search latency</h4><p>Still the one hard blocker. If a new category takes minutes, screen 07 breaks the habit we just built.</p></div>
+    <div><h4>The accent</h4><p>Cyan is a recommendation, not a decision. It is one variable and every screen follows it, so switching to sky, lime or the category hue costs nothing right now and costs a lot later.</p></div>
+    <div><h4>Cost per signup</h4><p>Reading someone&rsquo;s videos happens before they have paid anything. Whether we run it for every signup or only on request changes what screen 03 is allowed to promise.</p></div>
+    <div><h4>The three cap numbers</h4><p>8, 3 and 5 are placeholders taken straight from the note. They are also the whole conversion rate.</p></div>
+    <div><h4>Price and trial length</h4><p>Both unset. Screen 09 says &ldquo;no card for the first week&rdquo;, which is a decision waiting to happen rather than one already made.</p></div>
   </div>
 </section>
 
 <p class="colophon">
-  Revision 2, incorporating Ivan's notes. Draft wireframes, not final visual design. Greyboxes stand in for video; copy is written at final intent so it can be reviewed as a product decision.
+  Revision 3, incorporating the notes of Sept 7. Wireframes and visual direction, not final design. All thumbnails are colour placeholders; real frames remain the single biggest available upgrade. Pages are self-contained, with no external fonts or scripts, so they render on a slow connection. The revision 2 low-fidelity deck that used to live on this page is retired and kept in version history.
 </p>
 
 </div>

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>VVF 3.0 &middot; What we can actually analyse</title>
+<style>
+:root{
+  --paper:#F3F2ED; --surface:#FFFFFF; --wash:#FAF9F5;
+  --ink:#191815; --ink-2:#5F5B53; --ink-3:#8C877C;
+  --rule:#DCD8CF; --rule-soft:#E9E6DE;
+  --coral:#FF4F5E; --coral-soft:#FFEDEF;
+  --green:#12B886; --green-soft:#E4F5EE;
+  --amber:#B8860B; --amber-soft:#F6EDD6;
+  --slate:#5A6B7A; --slate-soft:#E7ECF0;
+  --f-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-body:Georgia,Cambria,"Times New Roman",Times,serif;
+  --f-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.58;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 22px 80px;}
+
+.mast{border-bottom:2px solid var(--ink);padding:34px 0 20px;}
+.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;}
+h1{font-family:var(--f-ui);font-weight:700;font-size:clamp(28px,6vw,46px);line-height:1.04;letter-spacing:-.03em;margin:0 0 16px;text-wrap:balance;max-width:19ch;}
+.lede{font-size:18px;color:var(--ink-2);margin:0;max-width:60ch;}
+.meta{display:flex;flex-wrap:wrap;gap:5px 22px;font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);margin-top:18px;}
+.meta b{color:var(--ink-2);font-weight:500;}
+
+section{padding-top:44px;}
+.shead{display:flex;align-items:center;gap:11px;border-top:1px solid var(--rule);padding-top:13px;margin-bottom:8px;}
+.shead .chip{width:10px;height:22px;border-radius:1px;flex:none;background:var(--coral);}
+.shead .n{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.1em;}
+h2{font-family:var(--f-ui);font-weight:650;font-size:clamp(20px,3.4vw,26px);letter-spacing:-.02em;margin:0;flex:1;}
+p{margin:0 0 15px;max-width:66ch;}
+.note{font-size:15.5px;color:var(--ink-2);}
+
+/* source blocks */
+.sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:20px;}
+.src{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:17px 18px;}
+.src .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;}
+.src.a .k{color:var(--green);} .src.b .k{color:var(--amber);} .src.c .k{color:var(--slate);}
+.src h3{font-family:var(--f-ui);font-size:16.5px;font-weight:650;letter-spacing:-.015em;margin:0 0 7px;line-height:1.2;}
+.src p{font-size:14.5px;color:var(--ink-2);margin:0;line-height:1.5;}
+.src .cost{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-top:11px;padding-top:9px;border-top:1px solid var(--rule-soft);display:block;}
+
+/* signal cards */
+.sig{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;margin-bottom:10px;}
+.sig-top{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:9px;}
+.sig-name{font-family:var(--f-ui);font-size:16.5px;font-weight:650;letter-spacing:-.015em;flex:1;min-width:180px;}
+.pill{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.p-a{background:var(--green-soft);color:#0B6B4F;}
+.p-b{background:var(--amber-soft);color:#7A5A05;}
+.p-c{background:var(--slate-soft);color:#3D4A55;}
+.says{font-family:var(--f-ui);font-size:15px;line-height:1.45;color:var(--ink);background:var(--wash);border-left:3px solid var(--coral);padding:10px 13px;border-radius:0 7px 7px 0;margin:0 0 10px;}
+.says em{font-style:normal;color:var(--ink-3);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px;}
+.sig-why{font-size:15px;color:var(--ink-2);margin:0;line-height:1.5;}
+.sig-why b{color:var(--ink);font-weight:600;font-family:var(--f-ui);}
+
+.tierhead{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin:26px 0 14px;}
+.tierhead h3{font-family:var(--f-ui);font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;}
+.tierhead span{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);}
+
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-top:18px;}
+.kv > div{background:var(--surface);padding:16px 18px;}
+.kv h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;font-weight:600;}
+.kv p{margin:0;font-size:15.5px;color:var(--ink-2);}
+.kv.hot h4{color:var(--coral);}
+
+.callout{background:#171312;color:#F4F1ED;border-radius:14px;padding:24px 24px;margin-top:22px;}
+.callout h3{font-family:var(--f-ui);font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;color:#fff;}
+.callout p{color:rgba(244,241,237,.76);font-size:16px;margin:0 0 12px;max-width:62ch;}
+.callout p:last-child{margin:0;}
+.callout b{color:#fff;font-weight:600;}
+
+.colophon{border-top:1px solid var(--rule);margin-top:46px;padding-top:16px;font-family:var(--f-mono);font-size:11.5px;line-height:1.7;color:var(--ink-3);max-width:70ch;}
+a{color:var(--ink);text-decoration-color:var(--rule);text-underline-offset:3px;}
+
+@media (max-width:640px){
+  body{font-size:16px;}
+  .wrap{padding:0 17px 60px;}
+  section{padding-top:34px;}
+  .sig{padding:14px 15px;}
+  .kv{grid-template-columns:1fr;}
+  .callout{padding:20px 18px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="tag">VVF 3.0 &middot; Answering the note on screen 04</div>
+  <h1>What we can actually tell a creator about their own account.</h1>
+  <p class="lede">Before screen 04 gets designed, here is every signal we could put on it, where each one comes from, what it costs to get, and whether it changes what they film tomorrow. The screen gets built from the top of this list, not from whatever looks good in a mockup.</p>
+  <div class="meta">
+    <span><b>Signals reviewed</b> 20</span>
+    <span><b>Available from a handle alone</b> 15</span>
+    <span><b>Need the TikTok connect</b> 5</span>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><span class="chip"></span><span class="n">01</span><h2>Three places the data can come from</h2></div>
+  <p class="note">They are not equally cheap and they are not equally useful, and the most useful one is the one we cannot have on day one. That tension is the whole design problem on screen 04.</p>
+  <div class="sources">
+    <div class="src a">
+      <div class="k">Source A</div>
+      <h3>Public profile and post metadata</h3>
+      <p>The video list and everything attached to it: views, likes, comments, shares, saves, duration, caption, hashtags, sound, cover image, timestamp. No login. Just the handle.</p>
+      <span class="cost">Cost: near zero &middot; Latency: under a second</span>
+    </div>
+    <div class="src b">
+      <div class="k">Source B</div>
+      <h3>The video files themselves</h3>
+      <p>What is actually said and shown. Transcript with timestamps, the first frame, on-screen text, cut rate, whether there is music under the voice. Still no login, but we have to fetch and process each video.</p>
+      <span class="cost">Cost: real &middot; Latency: seconds per video</span>
+    </div>
+    <div class="src c">
+      <div class="k">Source C</div>
+      <h3>TikTok account connect</h3>
+      <p>The numbers only the owner can see. Retention, watch time, where the views came from, how many followers each video won. This is the half that actually explains a flop.</p>
+      <span class="cost">Cost: an OAuth screen &middot; Latency: instant once granted</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="chip"></span><span class="n">02</span><h2>Tier 1 &middot; build screen 04 on these</h2></div>
+  <p class="note">Six signals. Each one is retrievable without a login, each one names something the creator can change in their next video, and between them they cover all five answers to &ldquo;what&rsquo;s your biggest problem?&rdquo; from screen 02.</p>
+
+  <div class="tierhead"><h3>The reach diagnostic</h3><span>answers &ldquo;I can&rsquo;t get views&rdquo;</span></div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Reach ceiling</span><span class="pill p-a">Source A</span><span class="pill p-a">Instant</span></div>
+    <p class="says"><em>What it says on screen</em>Your videos average 340 views on 412 followers. You are being shown to your followers and almost nobody else.</p>
+    <p class="sig-why">Median views divided by follower count. Under roughly 1&times; means TikTok is not pushing them past their own audience, which is a completely different problem from &ldquo;my content is bad&rdquo; and it is the one most small creators misdiagnose. <b>This is the line that reframes the whole thing</b>, and it costs one division.</p>
+  </div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Share rate against the niche</span><span class="pill p-a">Source A</span><span class="pill p-a">Instant</span></div>
+    <p class="says"><em>What it says on screen</em>People like your videos. They don&rsquo;t send them to anyone. Your share rate is 0.2%. The breakouts we found in skincare run 1.4%.</p>
+    <p class="sig-why">Shares are the closest public proxy for the thing the algorithm actually rewards, and they are the one engagement number small creators never look at. Needs a per-niche benchmark computed from our own catalog, which we have. <b>Highest-value signal available without a login.</b></p>
+  </div>
+
+  <div class="tierhead"><h3>The hook diagnostic</h3><span>answers &ldquo;my views die in the first seconds&rdquo;</span></div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Time to the point</span><span class="pill p-b">Source B</span><span class="pill p-b">~5s per video</span></div>
+    <p class="says"><em>What it says on screen</em>Your hooks take 4.1 seconds to reach the point. The breakouts land it in 1.8.</p>
+    <p class="sig-why">Transcript with word-level timestamps, then find the first sentence that states a claim, problem or promise. Ivan named this one and he is right that it is the sharpest. It is also the first signal on this list that costs money to compute, because it needs the audio.</p>
+  </div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Opens on the product or opens on the problem</span><span class="pill p-b">Source B</span><span class="pill p-b">~2s per video</span></div>
+    <p class="says"><em>What it says on screen</em>9 of your last 12 videos open on your product. Every breakout we found opens on the problem.</p>
+    <p class="sig-why">First frame plus the first three seconds of transcript, classified into a small fixed set: product, face, problem statement, result, text card, b-roll. One vision call on one frame. <b>The most quotable line on the screen</b> and the cheapest of the Source B signals, because it does not need the whole video.</p>
+  </div>
+
+  <div class="tierhead"><h3>The self-comparison</h3><span>answers &ldquo;I run out of ideas&rdquo; and &ldquo;I can&rsquo;t stay consistent&rdquo;</span></div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Your own breakout, and what was different about it</span><span class="pill p-a">Source A</span><span class="pill p-b">+ Source B</span></div>
+    <p class="says"><em>What it says on screen</em>Your best video did 3.2&times; your median. It was the only one you opened by talking, and the only one with no music.</p>
+    <p class="sig-why">Find the breakout in their own feed, then diff its Source B attributes against the other eleven. This is the single most persuasive thing on the screen because it is not our opinion, it is <b>their own evidence handed back to them</b>. It also fails gracefully: if nothing stands out, we say the feed is flat and that flatness is the finding.</p>
+  </div>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Cadence and gaps</span><span class="pill p-a">Source A</span><span class="pill p-a">Instant</span></div>
+    <p class="says"><em>What it says on screen</em>You posted 11 times in March and 3 times in April. Your April videos did worse, and that order is not a coincidence.</p>
+    <p class="sig-why">Posts per week and the longest gap. Weak on its own, strong when someone has picked &ldquo;I can&rsquo;t stay consistent&rdquo; on screen 02, which is why <b>screen 04 should choose its third card based on their answer there</b> rather than showing the same three cards to everyone.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="chip" style="background:var(--amber)"></span><span class="n">03</span><h2>Tier 2 &middot; cheap, real, not headline material</h2></div>
+  <p class="note">Worth computing because they cost almost nothing once the pipeline exists, and worth holding back because a screen with nine findings on it lands weaker than a screen with three.</p>
+
+  <div class="kv">
+    <div><h4>On-screen text in the first second</h4><p>Most feeds are watched muted. If nothing is written on frame one, the hook only exists for people with sound on.</p></div>
+    <div><h4>Cut rate in the first five seconds</h4><p>Frame differencing, no model needed. Separates &ldquo;one long static take&rdquo; from &ldquo;four cuts before the sentence finishes&rdquo;.</p></div>
+    <div><h4>Duration against performance</h4><p>Do their longer or shorter videos win. Needs more than twelve posts before it means anything.</p></div>
+    <div><h4>Original sound or trending sound</h4><p>Cheap, and it matters more in some niches than others. Reads as a tip, not a diagnosis.</p></div>
+    <div><h4>Does it end on a call to action</h4><p>Last three seconds of transcript. Speaks directly to &ldquo;I can&rsquo;t turn views into follows&rdquo; and &ldquo;I can&rsquo;t get sales&rdquo;.</p></div>
+    <div><h4>Topic scatter</h4><p>How many distinct subjects across their last twelve. High scatter is a real reason an account never builds an audience.</p></div>
+    <div><h4>Words per minute in the opening</h4><p>Free once the transcript exists. Pace is a genuine retention lever and nobody ever tells creators their own number.</p></div>
+    <div><h4>Save rate</h4><p>The intent proxy. Matters most to the people who answered &ldquo;sell a product&rdquo; on screen 02.</p></div>
+    <div><h4>Loopability</h4><p>First frame against last frame. Low diagnostic value, high delight value. A detail nobody expects us to have looked at.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="chip" style="background:var(--slate)"></span><span class="n">04</span><h2>Tier 3 &middot; the reason TikTok connect stays on the table</h2></div>
+  <p class="note">Ivan&rsquo;s call to lead with handle and email is right, and this is the list that makes the optional connect worth offering later rather than dropping. These five cannot be scraped, inferred or approximated. They are the numbers that actually explain a flop, and only the account owner can hand them over.</p>
+
+  <div class="sig">
+    <div class="sig-top"><span class="sig-name">Retention curve and average watch time</span><span class="pill p-c">Needs connect</span></div>
+    <p class="says"><em>What it says on screen</em>Half your viewers leave at 2.4 seconds. On the breakouts in your niche, half are still there at 7.</p>
+    <p class="sig-why">The single most explanatory number in short form, and it is invisible from outside. Every Source B signal we compute is an attempt to <b>guess at this number from the outside</b>. Getting it directly turns inference into fact.</p>
+  </div>
+
+  <div class="kv" style="margin-top:14px;">
+    <div><h4>Traffic source split</h4><p>For You against Following against Search against Profile. Confirms or kills the reach-ceiling diagnosis outright instead of implying it.</p></div>
+    <div><h4>New followers per video</h4><p>The literal answer to &ldquo;I can&rsquo;t turn views into follows&rdquo;, which is one of the five problems we ask about on screen 02.</p></div>
+    <div><h4>Audience active hours</h4><p>Turns posting-time advice from a guess into their actual audience. Cheap advice, and it feels personal.</p></div>
+    <div><h4>Impressions against views</h4><p>Whether the video was served and skipped, or never served at all. Two completely different fixes.</p></div>
+  </div>
+
+  <div class="callout">
+    <h3>The upsell writes itself, and it is not &ldquo;connect for more features&rdquo;.</h3>
+    <p>Everything on screen 04 without the connect is an educated guess about why people stopped watching. With the connect, we can show them the exact second they stopped. <b>That is a specific, provable thing to offer</b> and it belongs at the moment they first disagree with a finding, not on the sign-in screen where it currently sits.</p>
+    <p>Which also means the connect should be offered <b>after</b> screen 04 has already been useful, framed as &ldquo;we guessed at this. Want the real number?&rdquo;</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="chip"></span><span class="n">05</span><h2>What this does to the screen</h2></div>
+  <div class="kv hot">
+    <div><h4>Twenty seconds is not true yet</h4><p>Source A is instant. Source B is a fetch, a transcript and a vision call per video. Twelve videos is not a twenty-second job unless it runs in parallel and gets cached.</p></div>
+    <div><h4>So the screen reveals in two waves</h4><p>Paint the Source A findings immediately, then stream the hook findings in as they land. The wait stops being a spinner and starts being visible work.</p></div>
+    <div><h4>Six videos, not twelve</h4><p>Twelve is a nice number in copy but it triples the bill for very little extra signal. Six recent videos give the same three findings.</p></div>
+    <div><h4>Three cards, and the third one is chosen</h4><p>Card one is reach, card two is the hook, card three is picked from whatever they told us their biggest problem was on screen 02. Same structure for everyone, different third card.</p></div>
+    <div><h4>Every line has to imply a change</h4><p>If a finding does not tell them what to do differently in the next video, it is a stat, not an insight, and it belongs in Tier 2 where nobody sees it.</p></div>
+    <div><h4>Benchmarks come from our own catalog</h4><p>Every &ldquo;you 4.1s, breakouts 1.8s&rdquo; line needs a per-niche number. That is a real dependency on the catalog being deep enough in each niche before launch.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="chip"></span><span class="n">06</span><h2>Open, and blocking</h2></div>
+  <div class="kv">
+    <div><h4>Private, new or empty accounts</h4><p>Under five public videos and screen 04 has nothing to say. This is not an edge case at our exact audience, and it needs a designed fallback rather than an error state.</p></div>
+    <div><h4>Cost per signup</h4><p>Source B runs before anyone has paid us a cent. Needs a ceiling per account and a decision on whether we run it for every signup or only on request.</p></div>
+    <div><h4>Fetching at volume</h4><p>Reading public profiles for one creator is fine. Doing it for every signup on a growth spike is a different conversation, and it wants an answer before launch, not after.</p></div>
+    <div><h4>Niche depth in the catalog</h4><p>Benchmarks only exist where the catalog is deep. Which niches are actually deep enough today decides which niches we can let people search on screen 01.</p></div>
+  </div>
+</section>
+
+<p class="colophon">
+  VVF 3.0 &middot; written in response to the note &ldquo;lock what AI can retrieve &hellip; list impactful data before we design the screen&rdquo;. Screen 04 in <a href="../screens/">the screen set</a> is built from Tier 1 only. Numbers in the example lines are illustrative.
+</p>
+
+</div>
+</body>
+</html>
