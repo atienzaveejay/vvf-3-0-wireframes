@@ -52,6 +52,14 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
 .rulebox b{color:var(--neutral-ink);}
 .rulebox + .rulebox{margin-top:10px;}
 
+/* browser constraint panel */
+.bnote{margin-top:26px;background:#171312;border-radius:14px;padding:22px 24px;}
+.bnote h3{font-size:18px;font-weight:800;letter-spacing:-.025em;margin:0 0 6px;color:#fff;}
+.bnote .intro{font-size:14.5px;line-height:1.55;color:rgba(244,241,237,.72);margin:0 0 18px;max-width:74ch;}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:16px 26px;}
+.bgrid > div{font-size:13.5px;line-height:1.5;color:rgba(244,241,237,.68);}
+.bgrid b{display:block;color:#fff;font-weight:700;font-size:14px;letter-spacing:-.015em;margin-bottom:4px;}
+
 /* flow strip */
 .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;margin-top:26px;}
 .flow > div{background:var(--panel);padding:13px 14px 15px;box-shadow:0 0 0 1px var(--neutral-hair);}
@@ -84,7 +92,13 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
 .statusbar .dots i{width:3px;height:3px;border-radius:50%;background:currentColor;display:block;}
 .statusbar .batt{width:19px;height:10px;border-radius:2.5px;border:1.3px solid currentColor;position:relative;opacity:.85;}
 .statusbar .batt::after{content:"";position:absolute;inset:1.5px;right:5px;background:currentColor;border-radius:1px;}
+.urlbar{height:30px;flex:none;display:flex;align-items:center;gap:8px;padding:0 11px 4px;}
+.urlbar .pill{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:rgba(23,19,18,.07);border-radius:8px;height:23px;font-size:10px;font-weight:600;color:var(--mid);}
+.urlbar .pill svg{width:9px;height:9px;opacity:.75;}
+.urlbar .aa{font-size:12px;font-weight:800;color:var(--mid);opacity:.6;letter-spacing:-.04em;}
 .app{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:4px 14px 15px;gap:11px;}
+/* iOS Safari parks its address bar at the bottom, exactly where the primary button lives */
+.safaribottom{height:38px;flex:none;display:flex;align-items:center;gap:8px;padding:5px 11px 0;border-top:1px solid var(--line);}
 
 /* atoms */
 .h1s{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.12;}
@@ -140,7 +154,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
 <div class="page">
 
 <header class="masthead">
-  <p class="kicker">VVF 3.0 &middot; Chroma &middot; Revision 3, after the notes &middot; Mobile web</p>
+  <p class="kicker">VVF 3.0 &middot; Chroma &middot; Revision 3, after the notes &middot; Mobile web, in a browser</p>
   <h1>Search first. Two questions. Then it starts giving.</h1>
   <p class="sub">Ten screens. The category grid is gone and a search box takes its place, the two questions now ask about goal and problem rather than gear, nothing in the feed is analysed until it is tapped, and the free tier runs out in three separate places instead of one.</p>
 
@@ -156,6 +170,19 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
 
   <div class="rulebox"><b>Two rules keep it from getting noisy.</b> Coral #FF4F5E is the action colour and never changes, on any screen, in any category. Cyan #25F4EE is the highlight and is never a button, never a link, never text on white. The category hue owns everything else. If a button changes colour, the system is broken.</div>
   <div class="rulebox"><b>The cyan is a proposal, not a decision.</b> It is one variable. Swapping it for the sky blue, the lime or the category&rsquo;s own hue is a one-line change and every screen below follows. The four candidates are on <a href="../directions/" style="color:var(--neutral-ink);">the directions page</a>.</div>
+
+  <div class="bnote">
+    <h3>It is a browser, not an app.</h3>
+    <p class="intro">Every screen below is drawn inside mobile Safari, address bar included, because that bar is real estate we never get back. Adding it cost three screens a line each. Better to find that here than after the build.</p>
+    <div class="bgrid">
+      <div><b>The top 30px are not ours</b>On a 306&times;648 frame the address bar takes roughly a twentieth of the screen before we draw anything. Screens 02, 04 and 06 each had to lose a line to fit once it was added.</div>
+      <div><b>iOS Safari puts its bar at the bottom</b>Which is exactly where every primary button on these screens lives. Each one needs safe-area padding or it sits underneath Safari&rsquo;s own toolbar and cannot be tapped.</div>
+      <div><b>There is no push</b>The &ldquo;weekly read on your account&rdquo; promised on screen 07 has to arrive by email. That is the third separate reason the address on screen 03 is worth asking for.</div>
+      <div><b>The first run is a URL</b>No install, no store, no icon. Somebody taps a link in a bio or a DM and lands cold, which is why screen 01 has to work with no context and no prior session.</div>
+      <div><b>100vh lies here</b>The layout has to use dvh, or every screen jumps each time the address bar collapses on scroll. It bites hardest on the feed, which is the one screen built to be scrolled.</div>
+      <div><b>TikTok connect is a redirect</b>Not an SDK call. They leave the site and have to come back. Deferring it past screen 04 moves the riskiest redirect away from the highest drop-off moment, which is a second argument for the call already made.</div>
+    </div>
+  </div>
 
   <div class="flow">
     <div><span class="n">01</span><b>Search</b><span class="d">A box and a wall of suggestions. Tapping one is a search.</span></div>
@@ -178,6 +205,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#8A807C"></i><b>01</b> Home &middot; search</p>
     <div class="phone" data-cat="neutral">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
           <span style="font-weight:800;font-size:14px;letter-spacing:-.03em;">vvf</span>
@@ -237,6 +265,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>02</b> Goal and problem</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:8px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0 2px;">
           <span class="chip chip-on">Skincare</span>
@@ -255,12 +284,12 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
         <div style="height:1px;background:var(--line);margin:2px 0;"></div>
 
         <div class="h2s">What&rsquo;s your biggest problem?</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
           <div class="opt opt-on">I can&rsquo;t get views</div>
           <div class="opt">Views don&rsquo;t turn into follows</div>
           <div class="opt">I run out of ideas</div>
           <div class="opt">I can&rsquo;t stay consistent</div>
-          <div class="opt">I can&rsquo;t get sales</div>
+          <div class="opt" style="grid-column:span 2;">I can&rsquo;t get sales</div>
         </div>
 
         <div class="body" style="font-size:11.5px;">This decides what we look for, and what we put in front of you.</div>
@@ -275,6 +304,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>03</b> Connect &middot; handle and email</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:11px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
           <span class="chip chip-on">Skincare</span>
@@ -323,7 +353,8 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>04</b> What we found &middot; the payoff</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
-      <div class="app" style="gap:7px;">
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="app" style="gap:6px;">
         <div style="display:flex;align-items:center;gap:9px;padding:2px 0;">
           <span style="width:29px;height:29px;border-radius:50%;background:var(--cat);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;">MJ</span>
           <div>
@@ -367,12 +398,12 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
           <div style="font-size:11.5px;line-height:1.4;font-weight:600;">share rate. People like your videos, they just don&rsquo;t send them on. Skincare breakouts run 1.4%.</div>
         </div>
 
-        <div style="font-size:12.5px;line-height:1.45;font-weight:700;">This isn&rsquo;t a follower problem. It&rsquo;s a first-three-seconds problem.</div>
+        <div style="font-size:12.5px;line-height:1.45;font-weight:700;">Not a follower problem. A first-three-seconds problem.</div>
 
         <div style="flex:1"></div>
         <div style="display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:11px;padding:9px 11px;">
           <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:13px;flex:none;"><path d="M10 3v7l4 2" stroke="var(--mid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="7.2" stroke="var(--mid)" stroke-width="1.8"/></svg>
-          <span style="font-size:10.5px;font-weight:600;color:var(--mid);line-height:1.35;">We estimated these. Connect TikTok for the exact second people left.</span>
+          <span style="font-size:10.5px;font-weight:600;color:var(--mid);line-height:1.35;">Connect TikTok for the exact second people left.</span>
         </div>
         <button class="btn btn-brand" style="font-size:14.5px;">Show me videos that got it right</button>
       </div>
@@ -389,6 +420,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>05</b> The feed</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:10px;padding:4px 12px 12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -445,6 +477,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#12B886"></i><b>05b</b> Same feed &middot; fitness</p>
     <div class="phone" data-cat="fitness">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:10px;padding:4px 12px 12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -501,7 +534,8 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>06</b> Analyse &middot; the payoff</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
-      <div class="app" style="gap:10px;">
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="app" style="gap:8px;padding:4px 14px 12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
           <div style="display:flex;align-items:center;gap:7px;">
             <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:15px;"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -511,9 +545,9 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
         </div>
 
         <div style="display:flex;gap:11px;align-items:flex-end;">
-          <div style="width:54px;height:70px;border-radius:12px;background:linear-gradient(150deg,#F2CDD4,#C98A99);flex:none;"></div>
+          <div style="width:50px;height:62px;border-radius:11px;background:linear-gradient(150deg,#F2CDD4,#C98A99);flex:none;"></div>
           <div>
-            <div style="font-size:34px;font-weight:800;letter-spacing:-.05em;color:var(--acc-quiet);line-height:.9;">437&times;</div>
+            <div style="font-size:30px;font-weight:800;letter-spacing:-.05em;color:var(--acc-quiet);line-height:.9;">437&times;</div>
             <div style="font-size:10.5px;color:var(--mid);font-weight:600;margin-top:5px;">@marissa.jade &middot; 180k views &middot; 6 days ago</div>
           </div>
         </div>
@@ -534,7 +568,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
 
         <div>
           <div class="lbl" style="margin-bottom:6px;">Your brief</div>
-          <div class="card" style="padding:11px;display:flex;flex-direction:column;gap:7px;">
+          <div class="card" style="padding:10px;display:flex;flex-direction:column;gap:6px;">
             <div style="display:flex;gap:9px;"><span style="font-size:9.5px;font-weight:800;color:var(--mid);width:52px;flex:none;letter-spacing:.04em;">OPEN ON</span><span style="font-size:11.5px;line-height:1.35;font-weight:600;flex:1;">Your bare face, not the bottle</span></div>
             <div style="display:flex;gap:9px;"><span style="font-size:9.5px;font-weight:800;color:var(--mid);width:52px;flex:none;letter-spacing:.04em;">LENGTH</span><span style="font-size:11.5px;line-height:1.35;font-weight:600;flex:1;">20&ndash;30s, one take, no music</span></div>
             <div style="display:flex;gap:9px;"><span style="font-size:9.5px;font-weight:800;color:var(--mid);width:52px;flex:none;letter-spacing:.04em;">PRODUCT</span><span style="font-size:11.5px;line-height:1.35;font-weight:600;flex:1;">Not before 0:10</span></div>
@@ -544,11 +578,11 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
         <div style="flex:1"></div>
         <button class="btn btn-brand" style="font-size:14.5px;padding:15px;">Copy this hook</button>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;">
+          <button class="btn btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;padding:11px;">
             <svg class="icn" viewBox="0 0 24 24" fill="none" style="width:14px;"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             Email brief
           </button>
-          <button class="btn btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;">
+          <button class="btn btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;padding:11px;">
             <svg class="icn" viewBox="0 0 24 24" fill="none" style="width:14px;"><path d="M12 16V4m0 0L8 8m4-4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             Share
           </button>
@@ -577,6 +611,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#FF4F5E"></i><b>07</b> Cap &middot; 8 videos</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:12px;">
         <div style="display:flex;justify-content:flex-end;padding:2px 0;">
           <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:15px;"><path d="M5 5l10 10M15 5L5 15" stroke="var(--mid)" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -615,6 +650,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#7048E8"></i><b>08</b> Cap &middot; 3 searches</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:12px;">
         <div style="display:flex;justify-content:flex-end;padding:2px 0;">
           <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:15px;"><path d="M5 5l10 10M15 5L5 15" stroke="var(--mid)" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -657,6 +693,7 @@ h1{font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.03;letter-spac
     <p class="slot-cap"><i style="background:#12B886"></i><b>09</b> Cap &middot; 5 analyses &middot; trial</p>
     <div class="phone" data-cat="skincare">
       <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><span class="dots"><i></i><i></i><i></i></span><span class="batt"></span></span></div>
+        <div class="urlbar"><span class="aa">A</span><span class="pill"><svg viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="2"/><path d="M7.5 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" stroke-width="2"/></svg>viralvideofinder.com</span><svg viewBox="0 0 20 20" fill="none" style="width:13px;height:13px;opacity:.55;"><path d="M15.5 7.5A6 6 0 104 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="app" style="gap:12px;">
         <div style="display:flex;justify-content:flex-end;padding:2px 0;">
           <svg class="icn" viewBox="0 0 20 20" fill="none" style="width:15px;"><path d="M5 5l10 10M15 5L5 15" stroke="var(--mid)" stroke-width="2.2" stroke-linecap="round"/></svg>
